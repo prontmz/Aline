@@ -3,80 +3,124 @@ document.addEventListener('DOMContentLoaded', function() {
     const carousel = document.querySelector('.carousel');
     const images = document.querySelectorAll('.carousel img');
     let currentIndex = 0;
-    const intervalTime = 5000; // 3 segundos
+    const intervalTime = 5000; // 5 segundos
     
-    // Configuração inicial do carrossel
-    carousel.style.position = 'relative';
-    images.forEach(img => {
-        img.style.position = 'absolute';
-        img.style.top = '0';
-        img.style.left = '0';
-        img.style.width = '100%';
-        img.style.height = '100%';
-        img.style.opacity = '0';
-        img.style.transition = 'opacity 1s ease-in-out';
-    });
-    
-    // Mostra a primeira imagem
-    images[currentIndex].style.opacity = '1';
-    
-    function nextImage() {
-        // Esmaece a imagem atual
-        images[currentIndex].style.opacity = '0';
+    // Verifica se o carrossel existe na página
+    if (carousel && images.length > 0) {
+        // Configuração inicial do carrossel
+        carousel.style.position = 'relative';
+        images.forEach(img => {
+            img.style.position = 'absolute';
+            img.style.top = '0';
+            img.style.left = '0';
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 1s ease-in-out';
+        });
         
-        // Avança para a próxima imagem
-        currentIndex = (currentIndex + 1) % images.length;
+        // Mostra a primeira imagem
+        images[currentIndex].style.opacity = '1';
         
-        // Mostra a nova imagem após um pequeno delay
-        setTimeout(() => {
-            images[currentIndex].style.opacity = '1';
-        }, 50);
+        function nextImage() {
+            // Esmaece a imagem atual
+            images[currentIndex].style.opacity = '0';
+            
+            // Avança para a próxima imagem
+            currentIndex = (currentIndex + 1) % images.length;
+            
+            // Mostra a nova imagem após um pequeno delay
+            setTimeout(() => {
+                images[currentIndex].style.opacity = '1';
+            }, 50);
+        }
+        
+        // Inicia o carrossel automático
+        let carouselInterval = setInterval(nextImage, intervalTime);
+        
+        // Pausa o carrossel quando o mouse está sobre ele
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(carouselInterval);
+        });
+        
+        // Retoma o carrossel quando o mouse sai
+        carousel.addEventListener('mouseleave', () => {
+            carouselInterval = setInterval(nextImage, intervalTime);
+        });
     }
-    
-    // Inicia o carrossel automático
-    let carouselInterval = setInterval(nextImage, intervalTime);
-    
-    // Pausa o carrossel quando o mouse está sobre ele
-    carousel.addEventListener('mouseenter', () => {
-        clearInterval(carouselInterval);
-    });
-    
-    // Retoma o carrossel quando o mouse sai
-    carousel.addEventListener('mouseleave', () => {
-        carouselInterval = setInterval(nextImage, intervalTime);
-    });
 
-    // Restante do seu código (tabs, scroll suave, hover) permanece o mesmo...
     // ========== FUNCIONALIDADE DE TABS ==========
     const navItems = document.querySelectorAll('.nav-item');
     const tabContents = document.querySelectorAll('.tab-content');
     
-    function handleTabClick() {
-        navItems.forEach(navItem => navItem.classList.remove('active'));
-        tabContents.forEach(content => content.classList.remove('active'));
+    // Verifica se existem tabs na página
+    if (navItems.length > 0 && tabContents.length > 0) {
+        function handleTabClick() {
+            // Remove a classe active de todos os itens e conteúdos
+            navItems.forEach(navItem => navItem.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Adiciona a classe active ao item clicado
+            this.classList.add('active');
+            
+            // Obtém o ID da tab correspondente
+            const tabId = this.getAttribute('data-tab');
+            console.log('Tab clicada:', tabId); // Debug: verifica se está obtendo o ID correto
+            
+            if (tabId) {
+                const targetTab = document.getElementById(tabId);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                } else {
+                    console.error('Tab content não encontrado para o ID:', tabId);
+                }
+            }
+            
+            // Scroll suave para a seção de conteúdo
+            const contentSection = document.querySelector('.content-section');
+            if (contentSection) {
+                window.scrollTo({
+                    top: contentSection.offsetTop - 20,
+                    behavior: 'smooth'
+                });
+            }
+        }
         
-        this.classList.add('active');
-        const tabId = this.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
-        
-        window.scrollTo({
-            top: document.querySelector('.content-section').offsetTop - 20,
-            behavior: 'smooth'
+        // Adiciona o evento de clique a cada item de navegação
+        navItems.forEach(item => {
+            item.addEventListener('click', handleTabClick);
+            
+            // Debug: verifica se os itens têm o atributo data-tab correto
+            console.log('Nav item:', item, 'Data-tab:', item.getAttribute('data-tab'));
         });
+        
+        // Ativa a primeira tab por padrão se nenhuma estiver ativa
+        const activeTabs = document.querySelectorAll('.nav-item.active, .tab-content.active');
+        if (activeTabs.length === 0 && navItems.length > 0) {
+            navItems[0].classList.add('active');
+            const firstTabId = navItems[0].getAttribute('data-tab');
+            if (firstTabId) {
+                const firstTabContent = document.getElementById(firstTabId);
+                if (firstTabContent) {
+                    firstTabContent.classList.add('active');
+                }
+            }
+        }
+    } else {
+        console.warn('Elementos de tabs não encontrados na página');
     }
-    
-    navItems.forEach(item => {
-        item.addEventListener('click', handleTabClick);
-    });
     
     // ========== SCROLL SUAVE ==========
     const scrollIndicator = document.querySelector('.scroll-indicator');
     if (scrollIndicator) {
         scrollIndicator.addEventListener('click', function() {
-            window.scrollTo({
-                top: document.querySelector('.navbar').offsetTop,
-                behavior: 'smooth'
-            });
+            const navbar = document.querySelector('.navbar');
+            if (navbar) {
+                window.scrollTo({
+                    top: navbar.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
         });
     }
     
@@ -94,8 +138,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    imagesHover.forEach(img => {
-        img.addEventListener('mouseenter', handleImageHover);
-        img.addEventListener('mouseleave', handleImageHover);
-    });
+    if (imagesHover.length > 0) {
+        imagesHover.forEach(img => {
+            img.addEventListener('mouseenter', handleImageHover);
+            img.addEventListener('mouseleave', handleImageHover);
+        });
+    }
 });
