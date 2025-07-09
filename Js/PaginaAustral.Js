@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'Malawi':'Countries/Malawi.html',
         'madagascar':'Countries/Madagascar.html',
         'Mauricias':'Countries/Mauricias.html',
-         'namibia':'Countries/Namibia.html',
+         'namibia':'Countries/namibia.html',
         'Republica Democratica do Congo':'Countries/Republica Democratica do Congo.html',
         'RDCongo':'Countries/Republica Democratica do Congo.html',
         'Seychelles':'Countries/Seychelles.html',
