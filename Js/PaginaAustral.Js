@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mapeamento de países - ATUALIZE COM SEUS CAMINHOS REAIS
     const countryPages = {
         // Africa AUSTRAL:
-        'angola': 'Countries/angola.html',
+        'angola': 'Countries/Angola.html',
         'áfrica do sul': 'Countries/africa do sul.html',
         'botswana':'Countries/Botswana.html',
          'Congo':'Countries/Republica Democratica do Congo.html ',
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'Seychelles':'Countries/Seychelles.html',
         'Tanzania':'Countries/Tanzania.html',
         'Zambia':'Countries/Zambia.html',
-        'Zimbabwe':'Countries/Zimbabwe.html',        
+        'Zimbabwe':'Countries/zimbabwe.html',        
     };
 
     // Função para normalizar texto (remove acentos, espaços extras)
