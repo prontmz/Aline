@@ -29,18 +29,46 @@ body {
     width: 100%;
 }
 
-.carousel {
-    display: flex;
-    height: 100%;
-    transition: transform 0.5s ease-in-out;
+/* Container do carrossel - deve cobrir todo o cabeçalho */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Ocupa toda a altura da viewport */
+    overflow: hidden;
 }
 
-.carousel img {
-    min-width: 100%;
+/* Carrossel em si */
+.carousel {
+    position: relative;
+    width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
-    flex-shrink: 0;
+}
+
+/* Estilo para as imagens */
+.carousel img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Garante que a imagem cubra todo o espaço */
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel img.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.carousel img.fading-out {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.carousel img.next {
+    opacity: 0;
+    z-index: 2;
 }
 
 .hero-content {
